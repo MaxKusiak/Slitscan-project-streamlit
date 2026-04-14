@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter import filedialog
+import streamlit as st
 import threading
 import json
 import cv2
@@ -198,7 +199,7 @@ def choose_file():
         canvas.grid(row=5, column=0, sticky="nw")
         global_frame.grid(row=0, column=1, sticky="n")
 
-        choose_file_label.config(text=f"Chosen file: {file_path}")
+        choose_file_label.config(text=f"Selected file: {file_path}")
         choose_file_label.grid(row=2, column=0, sticky="w", pady=(0,20))
         choose_file_info.config(text=f"Video width: {width}\nVideo height: {height}\nFrame count: {frame_count}\nFrame rate: {fps}")
         choose_file_info.grid(row=3, column=0, sticky="w", pady=(0,20))
@@ -243,7 +244,7 @@ def choose_file():
         update_output_type()
         # tk.Scale(other_params_frame, from_=0, to=width - 1, label="Початкова X координата:", variable=start_x, orient="horizontal", length=width).grid(row=0, column=0, sticky="w")
 
-choose_button = tk.Button(choose_file_frame, text="Select file", command=choose_file)
+choose_button = tk.Button(choose_file_frame, text="Choose file", command=choose_file)
 choose_button.grid(row=2, column=0, sticky="w", pady=(0,20))
 
 # Global frame

@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter import filedialog
+import streamlit as st
 import threading
 import json
 import cv2
