@@ -1,7 +1,3 @@
 streamlit
 numpy
-opencv-python-headless==4.9.0.80
-tempfile
-os
-uuid
-math
+opencv-python-headless
