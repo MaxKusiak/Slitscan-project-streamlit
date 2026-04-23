@@ -69,6 +69,8 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
             angle_step = angle
             deep = round(((2 * math.pi) / angle))
             out_frame_count = round((end_frame - start_frame + 1 - ((2 * math.pi) / angle)) / abs(step))
+    # print(deep, out_frame_count)
+    # return ("error", "error")
 
     if output_format == "Video":
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -84,6 +86,9 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
         h1 = 0
         h2 = abs(v)
         percent = 0
+
+        if slit_scan_type == "Radial":
+            angle = math.atan(1 / ((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5) * 0.6
 
         ri = 0
         r = 0
@@ -229,13 +234,25 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
         else:
             out.write(image)
             percent = round(k / out_frame_count, 4)
-            progress.progress(percent, text=f"Processing... {percent * 100}%")
+            progress.progress(percent, text=f"Processing... {round(percent * 100)}%")
         k += 1
         b += step
 
     cap.release()
     if output_format == "Video":
         out.release()
+        with open(output_path, "rb") as f:
+            video_bytes = f.read()
+
+        st.download_button(
+            "Download video",
+            video_bytes,
+            file_name=output_path,
+            mime="video/mp4"
+        )
+
+        os.remove(output_path)
+
     tfile.close()
     os.remove(tfile.name)
     return (output_path, "success")
