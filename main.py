@@ -65,7 +65,7 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
             deep = round((((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5) / abs(v))
             out_frame_count = round((end_frame - start_frame + 1 - (((((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5) / abs(v)))) / abs(step))
         elif slit_scan_type == "Radial":
-            angle = math.atan(1 / ((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5) * 0.6
+            angle = math.atan(1 / ((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5) * 0.58
             angle_step = angle
             deep = round(((2 * math.pi) / angle))
             out_frame_count = round((end_frame - start_frame + 1 - ((2 * math.pi) / angle)) / abs(step))
@@ -85,10 +85,9 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
         t = 0
         h1 = 0
         h2 = abs(v)
-        percent = 0
 
         if slit_scan_type == "Radial":
-            angle = math.atan(1 / ((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5) * 0.6
+            angle = math.atan(1 / ((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5) * 0.58
 
         ri = 0
         r = 0
@@ -222,6 +221,10 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
                 if percent > 1:
                     percent = 1
                 progress.progress(percent, text=f"Processing... {round(percent * 100, 2)}%")
+            else:
+                if percent > 1:
+                    percent = 1
+                progress2.progress(percent, text=f"Frame processing... {round(percent * 100, 2)}%")
 
         if output_format == "Picture":
             _, buffer = cv2.imencode('.png', image)
@@ -234,7 +237,7 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
         else:
             out.write(image)
             percent = round(k / out_frame_count, 4)
-            progress.progress(percent, text=f"Processing... {round(percent * 100)}%")
+            progress.progress(percent, text=f"Processing... {round(percent * 100, 2)}%")
         k += 1
         b += step
 
@@ -258,6 +261,10 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
     return (output_path, "success")
 
 st.title("Slit Scan Processor")
+st.markdown(
+    '<a href="https://github.com/MaxKusiak/Slitscan-project" target="_blank">Go to GitHub</a>',
+    unsafe_allow_html=True
+)
 choose_file = st.file_uploader("Choose file", type=["mp4", "avi", "mov", "mkv"])
 
 if choose_file is not None:
@@ -292,9 +299,10 @@ if choose_file is not None:
 
     with col1:
         st.write(f"Selected file: {choose_file.name}")
-        st.write(f"Video width: {width}<br>Video height: {height}<br>Frame count: {frame_count}<br>Frame rate: {fps}", unsafe_allow_html=True)
+        st.write(f"Video width: {width}<br>Video height: {height}<br>Frame count: {frame_count}<br>Frame rate: {round(fps)}", unsafe_allow_html=True)
         st.image(frame, caption="First frame of the video", channels="BGR")
         progress = st.progress(0, text="The processing progress will be displayed here")
+        progress2 = st.progress(0, text="Frame processing progress will be displayed here")
         st.write("""Notes:<br>
                     For a radial slit, the speed parameter is not applicable.<br>
                     For a circular slit, a speed of 0 is not applicable.<br>
