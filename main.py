@@ -96,7 +96,7 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
                 r = ((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5 - ri * abs(v)
             else:
                 r = v * ri
-            angle = math.atan(1 / r) * 0.6 if r != 0 else math.pi * 2
+            angle = math.atan(1 / r) * 0.58 if r != 0 else math.pi * 2
 
         b = 0
         j = 0
@@ -155,7 +155,7 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
                         y = round(image_height / 2) - round(r * math.sin(angle * a))
                         if y >= 0 and y < image_height and x >= 0 and x < image_width:
                             image[y, x, :] = frame[senter[1] - round(r * math.sin(angle * a)), senter[0] + round(r * math.cos(angle * a)), :]
-                    angle = math.atan(1 / r) * 0.6 if r != 0 else math.pi * 2   
+                    angle = math.atan(1 / r) * 0.58 if r != 0 else math.pi * 2   
                 else:
                     for i in range(round(h2) - round(h1)):
                         if slit_scan_type == "Vertical":
@@ -201,7 +201,7 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
                     else:
                         r = v * ri
                         percent = round(r / (((image_width / 2) ** 2 + (image_height / 2) ** 2) ** 0.5), 4)
-                    angle = math.atan(1 / r) * 0.6 if r != 0 else math.pi * 2
+                    angle = math.atan(1 / r) * 0.58 if r != 0 else math.pi * 2
 
                     if v < 0:
                         if r < 0:
