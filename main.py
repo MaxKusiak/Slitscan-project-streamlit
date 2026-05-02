@@ -81,6 +81,7 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
     k = 0
     image = np.zeros((image_height, image_width, 3), dtype=np.uint8)
     progress.progress(0, text=f"Processing... {0}%")
+    percent = 0
     while k < out_frame_count:
         t = 0
         h1 = 0
@@ -124,7 +125,7 @@ def process_video(file_path, speed, start_x, end_x, start_y, end_y, start_frame,
 
             if not ret:
                 break
-
+            
             if f:
                 if slit_scan_type == "Vertical":
                     image[:, t, :] = frame[(start_y - 1):end_y, b, :]
@@ -300,7 +301,7 @@ if choose_file is not None:
     with col1:
         st.write(f"Selected file: {choose_file.name}")
         st.write(f"Video width: {width}<br>Video height: {height}<br>Frame count: {frame_count}<br>Frame rate: {round(fps)}", unsafe_allow_html=True)
-        st.image(frame, caption="First frame of the video", channels="BGR")
+        st.image(frame, caption="Start frame of the video", channels="BGR")
         progress = st.progress(0, text="The processing progress will be displayed here")
         progress2 = st.progress(0, text="Frame processing progress will be displayed here")
         st.write("""Notes:<br>
